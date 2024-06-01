@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Histórico de Batalhas
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,9 +9,34 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
+      <ion-title size="large">Histórico de Batalhas</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <ion-list>
+    <ion-item *ngFor="let battle of battleResults.reverse()">
+      <ion-card [ngClass]="{'victory': battle.contender1Wins, 'tie': battle.tie, 'defeat': battle.contender1Loses}">
+        <ion-card-header>
+          <ion-card-title>Batalha entre {{ battle.contender1.name }} e {{ battle.contender2.name }}</ion-card-title>
+          <ion-card-title>Batalha {{battle.battleCount}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-grid>
+            <ion-row>
+              <ion-col size="6">
+                <ion-img [src]="battle.contender1.img" alt="{{ battle.contender1.name }}"></ion-img>
+              </ion-col>
+              <ion-col size="6">
+                <ion-img [src]="battle.contender2.img" alt="{{ battle.contender2.name }}"></ion-img>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <p
+            [ngClass]="{'victory-text': battle.contender1Wins, 'tie-text': battle.tie, 'defeat-text': battle.contender1Loses}">
+            <strong>Resultado:</strong> {{ battle.result }}
+          </p>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </ion-list>
 </ion-content>
