@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Histórico de Batalhas
+      Pokédex
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,34 +9,36 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Histórico de Batalhas</ion-title>
+      <ion-title size="large">Pokédex</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-list>
-    <ion-item *ngFor="let battle of battleResults.reverse()">
-      <ion-card [ngClass]="{'victory': battle.contender1Wins, 'tie': battle.tie, 'defeat': battle.contender1Loses}">
-        <ion-card-header>
-          <ion-card-title>Batalha entre {{ battle.contender1.name }} e {{ battle.contender2.name }}</ion-card-title>
-          <ion-card-title>Batalha {{battle.battleCount}}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-grid>
-            <ion-row>
-              <ion-col size="6">
-                <ion-img [src]="battle.contender1.img" alt="{{ battle.contender1.name }}"></ion-img>
-              </ion-col>
-              <ion-col size="6">
-                <ion-img [src]="battle.contender2.img" alt="{{ battle.contender2.name }}"></ion-img>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-          <p
-            [ngClass]="{'victory-text': battle.contender1Wins, 'tie-text': battle.tie, 'defeat-text': battle.contender1Loses}">
-            <strong>Resultado:</strong> {{ battle.result }}
-          </p>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-  </ion-list>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" *ngFor="let pokemon of pokemons">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{ pokemon.name }}</ion-card-title>
+            <ion-card-subtitle>
+              <ion-icon [name]="pokemon.stats ? (pokemon.stats.wins ? 'checkmark-circle-outline' : 'close-circle-outline') : ''"
+                [color]="pokemon.stats ? (pokemon.stats.wins ? 'success' : 'danger') : ''"></ion-icon>
+              Vitórias: {{ pokemon.stats ? pokemon.stats.wins : 0 }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-icon [name]="pokemon.stats ? (pokemon.stats.loses ? 'close-circle-outline' : '') : ''"
+                [color]="pokemon.stats ? (pokemon.stats.loses ? 'danger' : '') : ''"></ion-icon>
+              Derrotas: {{ pokemon.stats ? pokemon.stats.loses : 0 }}
+            </ion-card-subtitle>
+            <ion-card-subtitle>
+              <ion-icon [name]="pokemon.stats ? (pokemon.stats.ties ? 'help-circle-outline' : '') : ''"
+                [color]="pokemon.stats ? (pokemon.stats.ties ? 'warning' : '') : ''"></ion-icon>
+              Empates: {{ pokemon.stats ? pokemon.stats.ties : 0 }}
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-img [src]="pokemon.img" [alt]="pokemon.name"></ion-img>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 </ion-content>
